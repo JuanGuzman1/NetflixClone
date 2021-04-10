@@ -11,20 +11,26 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import EpisodeItem from "../../components/EpisodeItem";
+import VideoPlayer from "../../components/VideoPlayer";
 
 const firstSeason = movie.seasons.items[0];
 const firstEpisode = firstSeason.episodes.items[0];
 
 const MovieDetailsScreen = () => {
   const [currentSeason, setCurrentSeason] = useState(firstSeason);
+  const [currentEpisode, setCurrentEpisode] = useState(
+    firstSeason.episodes.items[0]
+  );
   const seasonNames = movie.seasons.items.map((season) => season.name);
   return (
     <View>
-      <Image style={styles.image} source={{ uri: firstEpisode.poster }} />
+      <VideoPlayer episode={currentEpisode} />
 
       <FlatList
         data={currentSeason.episodes.items}
-        renderItem={({ item }) => <EpisodeItem episode={item} />}
+        renderItem={({ item }) => (
+          <EpisodeItem episode={item} onPress={setCurrentEpisode} />
+        )}
         style={{ marginBottom: 250 }}
         ListHeaderComponent={
           <View style={{ padding: 12 }}>
@@ -77,15 +83,19 @@ const MovieDetailsScreen = () => {
               </View>
             </View>
             <Picker
-              style={{color:'white', width: 130}}
-              dropdownIconColor= {'white'}
+              style={{ color: "white", width: 130 }}
+              dropdownIconColor={"white"}
               selectedValue={currentSeason.name}
               onValueChange={(itemValue, itemIndex) => {
-                setCurrentSeason(movie.seasons.items[itemIndex])
+                setCurrentSeason(movie.seasons.items[itemIndex]);
               }}
             >
               {seasonNames.map((seasonName) => (
-                <Picker.Item label={seasonName} value={seasonName} key={seasonName} />
+                <Picker.Item
+                  label={seasonName}
+                  value={seasonName}
+                  key={seasonName}
+                />
               ))}
             </Picker>
           </View>
