@@ -27,5 +27,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "netflixmedia": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
